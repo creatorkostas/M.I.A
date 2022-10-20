@@ -1,0 +1,61 @@
+{
+
+  "core":[
+    {
+      "sleep_time": 1,
+	  "check_for_updates_in_start": 0,
+	  "start_in_startup": 0
+    }
+  ],
+ 
+  "users":{
+	
+		"Admin_user":{
+			"email": "(Admin_user_mail@gmail.com)",
+			"nikname" : "Admin",
+			"paths": [
+				{
+				  "main": "users_files/Admin_user/",
+				  "music": "users_files/Admin_user/music/",
+				  "docs": "users_files/Admin_user/docs/",
+				  "pictures":"users_files/Admin_user/pictures/",
+				  "logs":"logs/",
+				  "wallpapers":"C:/Users/Admin_user/Pictures/wallpapers/"
+				}
+			]
+		},
+		
+		"user":{
+			"email": "(user_email@gmail.com)",
+			"nikname" : "user1",
+			"paths": [
+				{
+				  "main": "users_files/user/",
+				  "music": "users_files/user/music/",
+				  "docs": "users_files/user/docs/",
+				  "pictures":"users_files/user/pictures/",
+				  "logs":"logs/",
+				  "wallpapers":"C:/Users/user/Pictures/wallpapers/"
+				}
+			]
+		},
+		
+		"user2":{
+			"email": "(user2_email@gmail.com)",
+			"nikname" : "user2",
+			"paths": [
+				{
+				  "main": "users_files/user2/",
+				  "music": "users_files/user2/music/",
+				  "docs": "users_files/user2/docs/",
+				  "pictures":"users_files/user2/pictures/",
+				  "logs":"logs/",
+				  "wallpapers":"C:/Users/user2/Pictures/wallpapers/"
+				}
+			]
+		}
+		
+		
+	}
+
+}
