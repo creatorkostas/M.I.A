@@ -1,5 +1,5 @@
 
-![Logo](M.I.A-logo.png)
+![Logo](M.I.A.-logo.png)
 
 
 # M.I.A
