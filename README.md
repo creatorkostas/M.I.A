@@ -1,5 +1,5 @@
 
-![Logo](M.I.A-logo.png)
+![Logo](M.I.A.-logo.png)
 
 
 # M.I.A
@@ -38,9 +38,11 @@ This is necessary only to make your own update and distribute it
 
 Clone the project
 
-Put the Goolge Assistant API token file in ```M.I.A/data/token.json``` folder
+1. Put the Goolge Assistant API token file in ```M.I.A/data/token.json```
 
-Start the assistant
+2. Put ffmpeg.exe, ffplay.exe, ffprobe.exe in ```M.I.A./``` folder from https://ffmpeg.org/download.html
+
+3. Start the assistant
 
 ```bash
   python3 .\start_M.I.A.py
