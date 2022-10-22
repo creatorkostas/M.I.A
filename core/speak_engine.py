@@ -4,23 +4,24 @@ import io
 import requests
 
 class online_speak_engine:
-    def __init__(self):
+    def __init__(self,carter_key):
         print("Online speak engine have been loaded!")
-        self.temp_filename = 'temp.mp3'
+        self.carter_key = carter_key
         
 
-    def say(text,not_asynchronous=False):
-        s = "https://api.carterapi.com/v0/speak/CEpSVEJYeFrE7IdJ74jCNsMyhbulyHKA/"+text
+    def say(self,text):
+        s = f"https://api.carterapi.com/v0/speak/{self.carter_key}/{text}"
         #AudioSegment.ffmpeg  = "./core/modules_files/ffmpeg"
         r = requests.get(s, stream=True)
         song = AudioSegment.from_file(io.BytesIO(r.content), format="mp3")
         play(song)
-    def runAndWait():
-        print("This property is not available in the online version")
+
+    def runAndWait(self):
+        #print("This property is not available in the online version")
         pass
         
-    def setProperty(a='',b=''):
-        print("This property is not available in the online version")
+    def setProperty(self,a='',b=''):
+        #print("This property is not available in the online version")
         pass
     
     

@@ -37,8 +37,8 @@ def MIA_assistant(bot_v, username, isadmin, logger, console, command_input, spea
         from bs4 import BeautifulSoup as soup
         from urllib.request import urlopen
         from chatterbot import ChatBot
-        from google_assistant.pushtotalk import main as g_assistant
-        from google_assistant.assistant import TextAssistant
+        from core.google_assistant.pushtotalk import main as g_assistant
+        from core.google_assistant.assistant import TextAssistant
         from dotenv import load_dotenv
 
         
@@ -54,33 +54,42 @@ def MIA_assistant(bot_v, username, isadmin, logger, console, command_input, spea
         logger.critical("[CRITICAL] Critical Error while tring to load modules: "+str(e))
         install_missing_module(e,["wikipedia"])
 
-    
+    #cprint("Loading your AI personal assistant MIA", pcolors.OKGREEN)
+    #speak("Loading your AI personal assistant MIA")
     
     logger.info("[INFO] Starting MIA Assistant")
+    cprint("Starting MIA Assistant...", pcolors.OKCYAN,["OK",pcolors.OKGREEN],0.01)
+
+    #Loading MIA environment variables
+    logger.info("[INFO] Loading MIA environment variables")
+    cprint("Loading MIA environment variables...", pcolors.OKCYAN,["OK",pcolors.OKGREEN],0.01)
+    load_dotenv()
+
+    letter_letter_print_time = float(os.getenv("LETTER_LETTER_PRINT_TIME"))
+
     #loading settings
     logger.info("[INFO] Loading MIA settings")
+    cprint("Loading MIA settings...", pcolors.OKCYAN,["OK",pcolors.OKGREEN],letter_letter_print_time)
     jsonFile = open('data/settings.json', 'r')
     settings = json.load(jsonFile)
     sleep_wait_time = settings["core"][0]["sleep_time"]
     jsonFile.close()
     
-    #logger.info("[INFO] Loading MIA speaked characters")
-    logger.info("[INFO] Loading MIA environment variables")
-    load_dotenv()
+    
     
     logger.info("[INFO] Loading MIA Assistant AI")
     
-    cprint("Loading MIA Brain!", pcolors.OKCYAN)
+    cprint("Loading MIA Brain...", pcolors.OKCYAN,["OK",pcolors.OKGREEN],letter_letter_print_time)
     MIA_brain = load_MIA_brain(ChatBot,logger, "f")
     
-    cprint("Loading MIA chat bot!", pcolors.OKCYAN)
+    cprint("Loading MIA chat bot...", pcolors.OKCYAN,["OK",pcolors.OKGREEN],letter_letter_print_time)
     if bot_v == "n":
         logger.info("[INFO] MIA_Assistant_v0.0.1 started without the AI bot")
     else:
         MIA = load_MIA_bot(ChatBot,logger, bot_v,online_ai)
 
     logger.info("[INFO] Loading Speak Engine")
-    cprint("Loading Speak Engine!", pcolors.OKCYAN)
+    cprint("Loading Speak Engine...", pcolors.OKCYAN,["OK",pcolors.OKGREEN],letter_letter_print_time)
     
     #---------- Volume Control Virables --------------
     devices = AudioUtilities.GetSpeakers()
@@ -88,7 +97,7 @@ def MIA_assistant(bot_v, username, isadmin, logger, console, command_input, spea
     volume = cast(interface, POINTER(IAudioEndpointVolume))
     #-------------------------------------------------
     
-    if speak_engine_volume >= 0:
+    if int(speak_engine_volume) > 0:
         #from core.speak_engine import speak
         
         engine = load_speak_engine(pyttsx3,online_ai,os.getenv('CARTER_KEY'))
@@ -97,7 +106,7 @@ def MIA_assistant(bot_v, username, isadmin, logger, console, command_input, spea
             engine.setProperty('volume', speak_engine_volume)
             
         #cprint("Starting!", pcolors.OKCYAN)
-        engine.say("Starting")
+        engine.say("Starting!")
         engine.runAndWait()
         
         def speak(text):
@@ -164,10 +173,7 @@ def MIA_assistant(bot_v, username, isadmin, logger, console, command_input, spea
         logger.warning("[WARNING] Loading Google Assistant Faild with error: "+str(e))
         cprint("Google Assistant faild to load", pcolors.ERROR)
     
-
-    cprint("Loading your AI personal assistant MIA", pcolors.OKGREEN)
-    #speak("Loading your AI personal assistant MIA")
-    #wishMe()
+    wishMe()
 
     if bot_v == "l" or bot_v == "f" or bot_v == "n":
 
@@ -177,7 +183,6 @@ def MIA_assistant(bot_v, username, isadmin, logger, console, command_input, spea
                 statement = str(takeCommand()).lower()
             except KeyboardInterrupt:
                 exit()
-            #except Exception:
             except Exception as e:
                 cprint(str(e), pcolors.FAIL)
                 #pass
@@ -327,7 +332,7 @@ def MIA_assistant(bot_v, username, isadmin, logger, console, command_input, spea
                 elif brain_statement == "weather": #any(i in statement for i in par.weather):
                     w(speak,takeCommand,logger,requests)
                 
-                elif "lock keyboard" in statement or "disable keyboard" in statement:
+                elif any(i in statement for i in par.keyboard_lock):
                     pass
                 
                 elif brain_statement == "turn_of": #any(i in statement for i in par.turn_of):
@@ -375,8 +380,6 @@ if __name__ == '__main__':
     logging.getLogger('chatterbot.chatterbot').setLevel(logging.WARNING)
     logging.getLogger('chatterbot.response_selection').setLevel(logging.WARNING)
     
-    
-    
     #from core.logs import logs
     #logging,logger = logs("logs/login.log", "DEBUG")
     if os.path.exists("\\security") != False:
@@ -393,6 +396,8 @@ if __name__ == '__main__':
         ai_v_l = input("what ai version to load? [l(lite)/f(full)/n(none)] ")
         command_input = input("command input [v(voise)/k(keyboard)/i(instagram (not yet)))] ")
         speak_engine_volume = input("speak engine volume [101(Default)/'number'(The number giver)] ")
+        if speak_engine_volume == '':
+            speak_engine_volume=101
         online_ai = False
     else:
         #ai_v_l = "n"
@@ -401,5 +406,5 @@ if __name__ == '__main__':
         speak_engine_volume = 101
         print("AI version [none]\ncommand input [voice]\nspeak engine volume [default]")
         online_ai = True
-        
+
     MIA_assistant(ai_v_l, "user", True, logger, console, command_input, speak_engine_volume,online_ai)

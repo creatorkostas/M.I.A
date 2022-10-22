@@ -1,6 +1,13 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,dotenv
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,python,dotenv
 
+token.json
+credentials.json
+*.png
+*.jpg
+*.log
+start.log
+trusted.txt
 ### dotenv ###
 .env
 

@@ -14,6 +14,7 @@ weather = ["weather"]
 turn_of = ["sign out"]
 cancel_turn_of = ["cancel turn off","cancel sign out"]
 backup = ["backup", "let's save evrything"]
+keyboard_lock = ["lock keyboard","disable keyboard"]
 
 programs_name = ["firefox", "notepad++", "discord", "steam", "epic", "stremio", "visual studio code"]
 programs_path = ["Firefox", "Notepad++", "Discord", "Steam\\Steam", "Epic Games Launcher"]

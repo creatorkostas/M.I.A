@@ -1,8 +1,6 @@
 class MIA_online:
     
     def __init__(self, api_key):
-        import json
-        import requests
         self.url = "https://api.carterapi.com/v0/chat"
         self.headers = {
           'Content-Type': 'application/json'
