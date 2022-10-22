@@ -26,6 +26,7 @@ To run this project, you will need to add the following environment variables to
 `DEVICE_MODEL_ID`
 `DEVICE_ID`
 `GITHUB_TOKEN`
+`LETTER_LETTER_PRINT_TIME`
 
 This is necessary only to make your own update and distribute it
 
