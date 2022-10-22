@@ -47,6 +47,7 @@ def login(logger):
         
         #-------------------------------------------------------------------------------------------------------------
         lines = [[],[]]
+        users=['']
         k=0
         with open("security\\trusted.txt","r") as file:
             users = file.read()
@@ -58,7 +59,8 @@ def login(logger):
                     #print(i.split("\n"))
                     lines[k] = i.split("\n")
                     k+=1
-        ##print("\n\n---------------------------------\n"+str(lines)+"\n---------------------------------\n\n")
+        #print("\n\n---------------------------------\n"+str(lines)+"\n---------------------------------\n\n")
+        #TODO review this part
         done = False
         for user in users:
             if user != "":
@@ -73,9 +75,12 @@ def login(logger):
                 else:
                     fspass, isadmin = securityLayers.first_security_layer(username, password, connected_to_the_internet,logger)
                     done = True
-            
-            if done:
-                break
+            else:
+                fspass, isadmin = securityLayers.first_security_layer(username, password, connected_to_the_internet,logger)
+                done = True
+                
+                if done:
+                    break
         #-------------------------------------------------------------------------------------------------------------
         
         try:

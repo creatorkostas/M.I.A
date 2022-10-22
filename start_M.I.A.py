@@ -95,8 +95,8 @@ if __name__ == "__main__":
         print("Exitting...")
         logger.info("[INFO] Keyboard Interrupt by the user")
         
-    except Exception as e:
+    '''except Exception as e:
         logger.critical("[CRITICAL] Critical ERROR! error: "+str(e))
         print("Critical ERROR!\nExitting...")
         print(str(e))
-    
+    '''
