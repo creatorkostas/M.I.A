@@ -1,7 +1,6 @@
 import os.path
 import base64
 from email.message import EmailMessage
-import google.auth
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from google.oauth2.credentials import Credentials
@@ -54,7 +53,7 @@ def gmail_send_message(logger,username,message,receiver_email):
             Message.set_content(message)
 
             Message['To'] = receiver_email
-            Message['From'] = os.getenv('EMAILER_MAIL_FOR_SEND')
+            #Message['From'] = 'ai.assistant.m.i.a@gmail.com'#os.getenv('EMAILER_MAIL_FOR_SEND')
             Message['Subject'] = 'Automated draft'
 
             # encoded message
@@ -69,7 +68,7 @@ def gmail_send_message(logger,username,message,receiver_email):
         except HttpError as error:
             print("Error sending email")
             logger.warning("[SECURITY] Error while trying to send email from user: "+username)
-            logger.debug("[DEBUG] Error: "+str(e))
+            logger.debug("[DEBUG] Error: "+str(error))
             
     except Exception as e:
         print("Error sending email")
@@ -78,4 +77,20 @@ def gmail_send_message(logger,username,message,receiver_email):
 
 
 if __name__ == '__main__':
-    gmail_send_message('',"","test","(testmail@gmail.com)")
+    import logging
+    import os
+    logging.basicConfig(filename="logs/emailer_test.log",format='%(process)d -- %(name)s -- %(asctime)s -- %(levelname)s --  %(message)s',filemode='a')
+    logger=logging.getLogger()
+    logger.setLevel(logging.DEBUG)
+    logging_level = logging.DEBUG
+    logging.getLogger('comtypes._comobject').setLevel(logging.INFO)
+    logging.getLogger('comtypes').setLevel(logging.INFO)
+    logging.getLogger('comtypes.client').setLevel(logging.INFO)
+    logging.getLogger('comtypes.client._code_cache').setLevel(logging.WARNING)
+    logging.getLogger('chatterbot.chatterbot').setLevel(logging.WARNING)
+    logging.getLogger('chatterbot.response_selection').setLevel(logging.WARNING)
+
+    console = logging.StreamHandler()
+    if logging_level == 10:
+        logger.addHandler(console)
+    gmail_send_message(logger,'test_user',"HI!",input("Receiver email -->"))

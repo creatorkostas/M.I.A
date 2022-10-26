@@ -13,7 +13,7 @@ def MIA_assistant(bot_v, username, isadmin, logger, console, command_input, spea
         from core.music import music
         from core.get_info import ask, wiki
         from core.pc_control import change_wallpaper, shutdown
-        from core.notes import new_note, del_note, edit_note, read_notes
+        #from core.notes import new_note, del_note, edit_note, read_notes
         from core.emailer import gmail_send_message as emailer
         import core.volume_control as vc
         import speech_recognition as sr
@@ -37,7 +37,7 @@ def MIA_assistant(bot_v, username, isadmin, logger, console, command_input, spea
         from bs4 import BeautifulSoup as soup
         from urllib.request import urlopen
         from chatterbot import ChatBot
-        from core.google_assistant.pushtotalk import main as g_assistant
+        #from core.google_assistant.pushtotalk import main as g_assistant
         from core.google_assistant.assistant import TextAssistant
         from dotenv import load_dotenv
 
@@ -90,7 +90,7 @@ def MIA_assistant(bot_v, username, isadmin, logger, console, command_input, spea
 
     logger.info("[INFO] Loading Speak Engine")
     cprint("Loading Speak Engine...", pcolors.OKCYAN,["OK",pcolors.OKGREEN],letter_letter_print_time)
-    
+
     #---------- Volume Control Virables --------------
     devices = AudioUtilities.GetSpeakers()
     interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
@@ -115,6 +115,16 @@ def MIA_assistant(bot_v, username, isadmin, logger, console, command_input, spea
     else:
         def speak(text):
             cprint(text, pcolors.CBLINK)
+
+    logger.info("[INFO] Loading Google Assistant")
+    cprint("Loading Google Assistant...", 0.01)
+    try:
+        assist = TextAssistant(os.getenv('DEVICE_MODEL_ID'),os.getenv('DEVICE_ID'))
+        google_assistant_ok = True
+    except Exception as e:
+        google_assistant_ok = False
+        logger.warning("[WARNING] Loading Google Assistant Faild with error: "+str(e))
+        cprint("Google Assistant faild to load", pcolors.ERROR)
 
     def wishMe():
         hour=datetime.datetime.now().hour
@@ -163,16 +173,6 @@ def MIA_assistant(bot_v, username, isadmin, logger, console, command_input, spea
         logger.critical("[Critical] No valid command input provided")
         exit()
     
-    logger.info("[INFO] Loading Google Assistant")
-    cprint("Loading Google Assistant!", pcolors.OKCYAN)
-    try:
-        assist = TextAssistant(os.getenv('DEVICE_MODEL_ID'),os.getenv('DEVICE_ID')) #oi metablites gia auto to object einai temp
-        google_assistant_ok = True
-    except Exception as e:
-        google_assistant_ok = False
-        logger.warning("[WARNING] Loading Google Assistant Faild with error: "+str(e))
-        cprint("Google Assistant faild to load", pcolors.ERROR)
-    
     wishMe()
 
     if bot_v == "l" or bot_v == "f" or bot_v == "n":
@@ -191,7 +191,9 @@ def MIA_assistant(bot_v, username, isadmin, logger, console, command_input, spea
             #    continue
             if "assistant" in statement:
                 if google_assistant_ok:
-                    assist.main(statement)
+                    response_text = assist.main(statement)
+                    cprint(response_text)
+                    speak(response_text)
                 else:
                     cprint("Google Assistant has not load successfully", pcolors.INFO)
                 
@@ -371,11 +373,13 @@ if __name__ == '__main__':
     import os
     logging.basicConfig(filename="logs/MIA.log",format='%(process)d -- %(name)s -- %(asctime)s -- %(levelname)s --  %(message)s',filemode='a')
     logger=logging.getLogger()
-    logger.setLevel(logging.INFO)
-    logging_level = logging.INFO
+    logger.setLevel(logging.DEBUG)
+    logging_level = logging.DEBUG
     logging.getLogger('comtypes._comobject').setLevel(logging.INFO)
     logging.getLogger('comtypes').setLevel(logging.INFO)
     logging.getLogger('comtypes.client').setLevel(logging.INFO)
+    logging.getLogger('matplotlib').setLevel(logging.INFO)
+    logging.getLogger('h5py._conv').setLevel(logging.INFO)
     logging.getLogger('comtypes.client._code_cache').setLevel(logging.WARNING)
     logging.getLogger('chatterbot.chatterbot').setLevel(logging.WARNING)
     logging.getLogger('chatterbot.response_selection').setLevel(logging.WARNING)

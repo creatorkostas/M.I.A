@@ -137,9 +137,14 @@ class TextAssistant:
         grpc_channel = google.auth.transport.grpc.secure_authorized_channel(credentials, http_request, self.api_endpoint)
 
         with SampleTextAssistant(self.lang, self.device_model_id, self.device_id, self.display,grpc_channel, self.grpc_deadline) as assistant:
-            query = statement#click.prompt('')
-            #click.echo('<you> %s' % query)
+            query = statement
+
             response_text, response_html = assistant.assist(text_query=query)
             if self.display and response_html:
                 system_browser = browser_helpers.system_browser
                 system_browser.display(response_html)
+
+            if str(response_text) == 'None':
+                return ''
+            else:
+                return response_text

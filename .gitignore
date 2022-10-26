@@ -2,11 +2,15 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,python,dotenv
 
 token.json
+credentials*.json
+credentials2.json
 credentials.json
+client_secret_.json
 *.png
 *.jpg
 *.log
 start.log
+MIA.log
 trusted.txt
 ### dotenv ###
 .env
